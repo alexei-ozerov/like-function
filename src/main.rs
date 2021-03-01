@@ -16,8 +16,46 @@ fn main() {
     ];
     let quality: Vec<&str> = vec!["ma6", "ma7", "mi7", "mi(ma7)", "mi7(b5)", "dim", "7"];
 
+    // Get User Input
+    let input_tuple = get_user_input(&notes, &quality);
+
     // Runtime
-    link_tonality("".to_string(), notes, quality);
+    link_tonality(input_tuple.0, notes, quality);
+}
+
+fn get_user_input(notes_vec: &Vec<&str>, quality_vec: &Vec<&str>) -> (String, String) {
+    // Select Key
+    let mut input_key = String::new();
+    let mut index = 1;
+    println!("Select a key: ");
+
+    for note in notes_vec.iter() {
+        println!("{}) {}", index, note);
+        index = index + 1;
+    }
+
+    println!("");
+    std::io::stdin().read_line(&mut input_key).unwrap();
+
+    // Select Quality
+    let mut input_quality = String::new();
+    index = 1;
+    println!("Select quality: ");
+
+    for qual in quality_vec.iter() {
+        println!("{}) {}", index, qual);
+        index = index + 1
+    }
+
+    println!("");
+    std::io::stdin().read_line(&mut input_quality).unwrap();
+
+    // Cut Newline
+    let output_key: Vec<&str> = input_key.split("\n").collect();
+    let output_quality: Vec<&str> = input_quality.split("\n").collect();
+    
+    // Return Tuple
+    (output_key[0].to_string(), output_quality[0].to_string())
 }
 
 // Based on user input, create resulting chord struct.
