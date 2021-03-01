@@ -20,7 +20,7 @@ fn main() {
     let input_tuple = get_user_input(&notes, &quality);
 
     // Runtime
-    link_tonality(input_tuple.0, notes, quality);
+    link_tonality(input_tuple.0, input_tuple.1, notes, quality);
 }
 
 fn get_user_input(notes_vec: &Vec<&str>, quality_vec: &Vec<&str>) -> (String, String) {
@@ -36,6 +36,7 @@ fn get_user_input(notes_vec: &Vec<&str>, quality_vec: &Vec<&str>) -> (String, St
 
     println!("");
     std::io::stdin().read_line(&mut input_key).unwrap();
+    println!("");
 
     // Select Quality
     let mut input_quality = String::new();
@@ -49,6 +50,7 @@ fn get_user_input(notes_vec: &Vec<&str>, quality_vec: &Vec<&str>) -> (String, St
 
     println!("");
     std::io::stdin().read_line(&mut input_quality).unwrap();
+    println!("");
 
     // Cut Newline
     let output_key: Vec<&str> = input_key.split("\n").collect();
@@ -71,7 +73,11 @@ fn assemble_chord(note_names: Vec<&str>, chord_quality: Vec<&str>) -> Chord {
 }
 
 // Link given chord to tonal matrix
-fn link_tonality(chord_in: String, note_names: Vec<&str>, chord_quality: Vec<&str>) {
-    let res = assemble_chord(note_names, chord_quality);
-    println!("{:#?}, {}", res, chord_in);
+fn link_tonality(chord_in: String, quality_in: String, note_names: Vec<&str>, chord_quality: Vec<&str>) {
+    
+    let chord_index = chord_in.parse::<i32>().unwrap() - 1;
+    let quality_index = quality_in.parse::<i32>().unwrap() - 1;
+    println!("Getting Pivot Options For: {}{}", note_names[chord_index as usize], chord_quality[quality_index as usize]);
+
+    let _res = assemble_chord(note_names, chord_quality);
 }
